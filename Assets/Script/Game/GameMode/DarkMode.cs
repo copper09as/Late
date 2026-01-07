@@ -1,3 +1,6 @@
+// 文件: DarkMode.cs
+// 说明: 特殊模式示例（暗模式），在 CardMode 基础上实现不同的初始化或规则。
+
 using System;
 using System.Collections.Generic;
 using UnityEngine;

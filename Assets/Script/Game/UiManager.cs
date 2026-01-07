@@ -1,3 +1,5 @@
+// 文件: UiManager.cs
+// 说明: 管理界面 UI（时间显示、状态文本、返回/重启/上一步按钮），并通过事件总线与游戏逻辑交互。
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +16,7 @@ public class UiManager : MonoBehaviour
     [SerializeField]private TextMeshProUGUI fatherStateTxt;
     [SerializeField]private TextMeshProUGUI childStateTxt;
     [SerializeField]private TextMeshProUGUI currentSeed;
+    [SerializeField]private Button LastStepButton;
     void Awake()
     {
         EventBus.Register<Game.Event.TimeFlow>(UpdateTime);
@@ -27,8 +30,11 @@ public class UiManager : MonoBehaviour
         });
         RestartButton.onClick.AddListener(()=>
         {
-            GameConfig.Instance.seed = DateTime.Now.Millisecond;
             EventBus.Publish(new Game.Event.Init());
+        });
+        LastStepButton.onClick.AddListener(()=>
+        {
+            EventBus.Publish(new Game.Event.LastStep());
         });
     }
     private void UpdateSeedText(Game.Event.Init initEvent)

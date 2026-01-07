@@ -1,3 +1,6 @@
+// 文件: CardData.cs
+// 说明: 定义卡牌数据结构（用于卡牌内容和属性）。
+
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;

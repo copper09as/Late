@@ -1,3 +1,5 @@
+// 文件: MessageBox.cs
+// 说明: 简易消息弹窗管理，负责显示文本与多个按钮并执行对应回调。
 using System;
 using System.Collections;
 using System.Collections.Generic;

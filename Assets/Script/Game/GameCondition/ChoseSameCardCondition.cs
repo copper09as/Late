@@ -1,3 +1,5 @@
+// 文件: ChoseSameCardCondition.cs
+// 说明: 条件：选中同一张卡（用于取消选择等逻辑）。
 using System;
 using System.Collections.Generic;
 

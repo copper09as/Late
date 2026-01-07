@@ -1,3 +1,5 @@
+// 文件: CardDataOutDoor.cs
+// 说明: 卡牌数据的一个变体或示例
 using System;
 using UnityEngine;
 

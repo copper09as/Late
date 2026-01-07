@@ -1,3 +1,5 @@
+// 文件: UseCardIfFlipCondition.cs
+// 说明: 条件：被点击的卡片为翻转状态（用于特定触发逻辑）。
 class UseCardIfFlipCondition : GameCondition
 {
     public override bool ConditionallyTrue(RuntimeGameData runtimeGameData)

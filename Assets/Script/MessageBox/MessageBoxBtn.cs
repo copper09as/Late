@@ -1,3 +1,5 @@
+// 文件: MessageBoxBtn.cs
+// 说明: 消息弹窗按钮组件，初始化显示文本并在点击时执行一系列回调。
 using System;
 using System.Collections.Generic;
 using TMPro;

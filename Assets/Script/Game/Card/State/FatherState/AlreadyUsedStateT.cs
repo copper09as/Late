@@ -1,10 +1,8 @@
-// 文件: AlreadyUsedState.cs
-// 说明: 父状态，表示卡牌已被使用时的表现，通常变半透明并在回合结束后切换状态。
-using UnityEngine;
-
-public class AlreadyUsedState : CardState
+// 文件: AlreadyUsedStateT.cs
+// 说明: 父状态的变体（用于延迟或过渡态），在特定条件下切回其他状态。
+public class AlreadyUsedStateT : CardState
 {
-    public override CardStates StateType => CardStates.AlreadyUsed;
+    public override CardStates StateType => CardStates.AlreadyUsedT;
 
     public override void Enter()
     {
@@ -25,7 +23,7 @@ public class AlreadyUsedState : CardState
     }
     protected virtual void ChangeNormalState(Game.Event.TurnOver _)
     {
-        var newState = new AlreadyUsedStateT();
+        var newState = new NormalState();
         newState.Init(cardStateMachine, cardPresentation,childState);
         cardStateMachine.ChangeState(cardPresentation,newState);
     }
@@ -38,4 +36,5 @@ public class AlreadyUsedState : CardState
         base.Release();
         EventBus.Unregister<Game.Event.TurnOver>(ChangeNormalState);
     }
+
 }

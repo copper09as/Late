@@ -1,5 +1,7 @@
 using System.Diagnostics;
 
+// 文件: HelightState.cs
+// 说明: 子状态，表示卡牌在被高亮（提示）时的视觉效果处理。
 class HelightState : ChildCardState
 {
     public override ChildCardStates StateType => ChildCardStates.Helight;

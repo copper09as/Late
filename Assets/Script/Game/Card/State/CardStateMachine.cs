@@ -4,6 +4,8 @@ public class CardStateMachine
 {
     private CardState currentState;
 
+// 文件: CardStateMachine.cs
+// 说明: 卡牌状态机，用于管理父状态与子状态的切换与生命周期。
     public void ChangeState(CardPresentation cardPresentation, CardState newState)
     {
         newState.Init(this, cardPresentation, currentState?.childState);

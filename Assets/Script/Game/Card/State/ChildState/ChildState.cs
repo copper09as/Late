@@ -1,4 +1,6 @@
 
+// 文件: ChildState.cs
+// 说明: 子状态基类，定义子状态生命周期接口（Init/Enter/Execute/Exit/Release）。
 public abstract class ChildCardState
 {
     protected CardStateMachine cardStateMachine;
@@ -27,6 +29,5 @@ public enum ChildCardStates
 {
     Normal,
     BeSelect,
-    Helight,
-    CantBeFlip
+    Helight
 }

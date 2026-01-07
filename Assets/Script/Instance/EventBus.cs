@@ -1,3 +1,5 @@
+// 文件: EventBus.cs
+// 说明: 简单的事件总线实现，支持按事件类型注册/注销回调并发布事件。
 using System;
 using System.Collections.Generic;
 

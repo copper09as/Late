@@ -1,4 +1,6 @@
 
+// 文件: CardState.cs
+// 说明: 父状态基类，定义卡牌主要状态（Normal/Flipped/AlreadyUsed 等）及其生命周期接口。
 public abstract class CardState
 {
     protected CardStateMachine cardStateMachine;
@@ -45,5 +47,6 @@ public enum CardStates
 {
     Normal,
     flipped,
-    AlreadyUsed
+    AlreadyUsed,
+    AlreadyUsedT
 }

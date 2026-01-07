@@ -1,3 +1,6 @@
+// 文件: CardPresentation.cs
+// 说明: 卡牌在场景中的表现组件，处理显示、交互、状态变化及事件发布。
+
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,7 +41,6 @@ public class CardPresentation : MonoBehaviour
             EnterState(flippedState);
             UnityEngine.Debug.Log("Flip to Flipped State");
         }
-        SetImage(!isFlip);
         StartCoroutine(FlipCoroutine());
     }
     void OnDestroy()
@@ -63,12 +65,55 @@ public class CardPresentation : MonoBehaviour
     {
         cardStateMachine.ChangeState(this,state);
     }
+    public void EnterState(CardStates state)
+    {
+        CardState cardState = null;
+        switch (state)
+        {
+            case CardStates.Normal:
+                cardState = new NormalState();
+                break;
+            case CardStates.flipped:
+                cardState = new FlippedState();
+                break;
+            case CardStates.AlreadyUsed:
+                cardState = new AlreadyUsedState();
+                break;
+            case CardStates.AlreadyUsedT:
+                cardState = new AlreadyUsedStateT();
+                break;
+            default:
+                Debug.LogError("Unknown CardState: " + state);
+                return;
+        }
+        EnterState(cardState);
+    }
     public void EnterChildState(ChildCardState state)
     {
         state.Init(cardStateMachine,this);
         cardStateMachine.ChangeChildState(state);
     }
-    private void SetImage(bool isFlip)
+    public void EnterChildState(ChildCardStates state)
+    {
+        ChildCardState childState = null;
+        switch (state)
+        {
+            case ChildCardStates.Normal:
+                childState = new ChildNormalState();
+                break;
+            case ChildCardStates.BeSelect:
+                childState = new BeSelectState();
+                break;
+            case ChildCardStates.Helight:
+                childState = new HelightState();
+                break;
+            default:
+                Debug.LogError("Unknown ChildCardState: " + state);
+                return;
+        }
+        EnterChildState(childState);
+    }
+    public void SetImage(bool isFlip)
     {
         if (!isFlip)
             sr.sprite = cardData.cardImage;

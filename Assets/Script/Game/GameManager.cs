@@ -1,4 +1,7 @@
 
+// 文件: GameManager.cs
+// 说明: 管理游戏主要流程，注册并响应事件（使用卡牌、初始化、检查胜利、上一步等）。
+// 该类负责初始化游戏模式、处理输入以及调用卡牌模式相关方法。
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,18 +11,18 @@ using UnityEngine.UI;
 class GameManager : MonoBehaviour
 {
     private CardMode cardMode;
-    [SerializeField]private RuntimeGameData runtimeGameData;
+    [SerializeField] private RuntimeGameData runtimeGameData;
+    [SerializeField] private GameObject cardPrefab;
 
     void Awake()
     {
         EventBus.Register<Game.Event.UseCard>(OnUseCard);
         EventBus.Register<Game.Event.Init>(Init);
         EventBus.Register<Game.Event.CheckWin>(CheckWin);
-        EventBus.Register<Game.Event.ReturnToMainMenu>(SaveRuntimeGameData);
+        EventBus.Register<Game.Event.LastStep>(LastStep);
     }
     void Start()
     {
-
         EventBus.Publish(new Game.Event.Init());
     }
     void OnDestroy()
@@ -27,14 +30,30 @@ class GameManager : MonoBehaviour
         EventBus.Unregister<Game.Event.UseCard>(OnUseCard);
         EventBus.Unregister<Game.Event.Init>(Init);
         EventBus.Unregister<Game.Event.CheckWin>(CheckWin);
-        EventBus.Unregister<Game.Event.ReturnToMainMenu>(SaveRuntimeGameData);
+        EventBus.Unregister<Game.Event.LastStep>(LastStep);
     }
     void Init(Game.Event.Init initEvent)
     {
         Init();
     }
+    void LastStep(Game.Event.LastStep lastStepEvent)
+    {
+        //runtimeGameData.GetLastSaveData();
+        //cardMode.ShuffleCardsContinue(runtimeGameData.cards, runtimeGameData.GetLastSaveData());
+    }
     void Init()
     {
+        if (runtimeGameData.cards.Count == 0)
+        {
+            runtimeGameData.cards = new List<CardPresentation>();
+            for (int i = 0; i < 9; i++)
+            {
+                var cardObj = Instantiate(cardPrefab);
+                var card = cardObj.GetComponent<CardPresentation>();
+                runtimeGameData.cards.Add(card);
+            }
+        }
+
         cardMode = GameConfig.Instance.LoadMode();
         cardMode.Init(runtimeGameData);
         ShuffleCards();
@@ -57,24 +76,20 @@ class GameManager : MonoBehaviour
         {
             GameWin();
         }
-    }                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     
-    private void SaveRuntimeGameData(Game.Event.ReturnToMainMenu eve)
-    {
-       // runtimeGameData.SaveCardData();
     }
     private void GameWin()
     {
         runtimeGameData.gameState = GameState.Win;
         var winDic = new Dictionary<string, System.Action>();
-        winDic.Add("Restart", ()=>
+        winDic.Add("Restart", () =>
         {
             Init();
         });
-        winDic.Add("Main Menu", ()=>
+        winDic.Add("Main Menu", () =>
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
-        winDic.Add("Quit", ()=>
+        winDic.Add("Quit", () =>
         {
             Application.Quit();
         });
@@ -85,15 +100,15 @@ class GameManager : MonoBehaviour
     {
         runtimeGameData.gameState = GameState.Lose;
         var loseDic = new Dictionary<string, System.Action>();
-        loseDic.Add("Restart", ()=>
+        loseDic.Add("Restart", () =>
         {
             Init();
         });
-        loseDic.Add("Main Menu", ()=>
+        loseDic.Add("Main Menu", () =>
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
-        loseDic.Add("Quit", ()=>
+        loseDic.Add("Quit", () =>
         {
             Application.Quit();
         });
@@ -105,9 +120,18 @@ class GameManager : MonoBehaviour
         var card = runtimeGameData.cards.Find(c => c.CardId == useCardEvent.cardID);
         runtimeGameData.cardBeClicked = card;
         cardMode.ChoseCard(runtimeGameData);
+        //SaveData saveData = runtimeGameData.GetCardData();
     }
     public void ShuffleCards()
     {
+        /*
+        if (GameConfig.Instance.continueMode)
+        {
+            cardMode.ShuffleCardsContinue(runtimeGameData);
+            GameConfig.Instance.continueMode = false;
+            return;
+        }*/
         cardMode.ShuffleCards(runtimeGameData);
+        //runtimeGameData.SaveCardData(runtimeGameData.GetCardData());
     }
 }

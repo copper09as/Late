@@ -1,3 +1,5 @@
+// 文件: CardMode.cs
+// 说明: 定义卡牌游戏的模式基类，包含卡牌布局（slots）、选择/使用卡牌的规则和洗牌/恢复逻辑。
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -5,8 +7,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New CardMode", menuName = "GameMode/CardMode")]
 public class CardMode : ScriptableObject
 {
-    [SerializeField] private CardRepository cardRepository;
-    private struct GridSlot
+    [SerializeField] protected CardRepository cardRepository;
+    protected struct GridSlot
     {
         public int id;
         public Vector2 position;
@@ -37,7 +39,7 @@ public class CardMode : ScriptableObject
             }
         }
     }
-    private List<GridSlot> slots;
+    protected List<GridSlot> slots;
     protected List<GameCondition> gameConditions;
     public virtual void ChoseCard(RuntimeGameData runtimeGameData)
     {
@@ -103,7 +105,6 @@ public class CardMode : ScriptableObject
     protected virtual void CancelSelection(RuntimeGameData runtimeGameData)
     {
         runtimeGameData.currentChoseCard.CancelSelected();
-        //runtimeGameData.currentChoseCard = null;
         foreach (var card in runtimeGameData.cards)
         {
             ChildCardState normalState = new ChildNormalState();
@@ -112,7 +113,6 @@ public class CardMode : ScriptableObject
     }
     protected virtual void UseAdjCardCallback(RuntimeGameData runtimeGameData)
     {
-        //EventBus.Publish(new Game.Event.TurnAlreadyOver { });
         SwapCard(runtimeGameData.currentChoseCard, runtimeGameData.cardBeClicked);
         if(runtimeGameData.currentChoseCard.StateType!=CardStates.flipped)
         {
@@ -120,8 +120,6 @@ public class CardMode : ScriptableObject
         }
        
         FlipCards(runtimeGameData);
-        //runtimeGameData.currentChoseCard.CancelSelected();
-        //runtimeGameData.currentChoseCard = null;
         runtimeGameData.Time++;
         runtimeGameData.currentChoseCard.Use(runtimeGameData);
         EventBus.Publish(new Game.Event.TurnOver { });
@@ -145,8 +143,38 @@ public class CardMode : ScriptableObject
             slots.RemoveAt(randomIndex);
         }
     }
+    /*
+    public virtual void ShuffleCardsContinue(RuntimeGameData runtimeGameData)
+    {
+        var cards = runtimeGameData.cards;
+        var gameData = runtimeGameData.LoadCardData();
+        ShuffleCardsContinue(cards, gameData);
+    }
+    public virtual void ShuffleCardsContinue(List<CardPresentation> cards, SaveData gameData)
+    {
+        int count = gameData.CardIdList.Count;
+        if (gameData.CardIndexList.Count < count) count = gameData.CardIndexList.Count;
+        if (cards.Count < count) count = cards.Count;
+        for (int i = 0; i < count; i++)
+        {
+            int slotId = gameData.CardIndexList[i];
+            int slotListIndex = slots.FindIndex(s => s.id == slotId);
+            if (slotListIndex < 0) continue;
+            GridSlot slot = slots[slotListIndex];
+            cards[i].transform.position = slot.position;
+            var cardDataList = cardRepository.allCards;
+            var cardData = cardDataList.Find(data => data.cardId == gameData.CardIdList[i]);
+            cards[i].Init(slot.id, cardData);
+            cards[i].EnterState(gameData.cardStates[i]);
+            cards[i].EnterChildState(gameData.childCardStates[i]);
+        } 
+    }
+    */
     public virtual bool CheckWin(RuntimeGameData runtimeGameData)
     {
+        var data = runtimeGameData.GetCardData();
+        
+       //runtimeGameData.SaveCardData(data);
         foreach (var card in runtimeGameData.cards)
         {
             if (card.StateType == CardStates.flipped)
@@ -177,7 +205,6 @@ public class CardMode : ScriptableObject
                 card.Flip();
             }
         }
-       
     }
 
 }

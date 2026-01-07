@@ -1,3 +1,5 @@
+// 文件: BeSelectState.cs
+// 说明: 子状态，表示卡牌被选中时的视觉与行为处理（框高亮、响应回合结束恢复普通状态）。
 class BeSelectState : ChildCardState
 {
     public override ChildCardStates StateType => ChildCardStates.BeSelect;

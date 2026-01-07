@@ -1,3 +1,5 @@
+// 文件: MainUiManager.cs
+// 说明: 主菜单的 UI 管理，处理模式选择、种子输入与场景跳转。
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -38,7 +40,8 @@ public class MainUiManager : MonoBehaviour
     }
     private void OnContinueModeClicked()
     {
-        GameConfig.Instance.modePath = "Data/GameMode/ContinueMode";
+        GameConfig.Instance.continueMode = true;
+        GameConfig.Instance.modePath = "Data/GameMode/CardMode";
         SceneManager.LoadScene("MainGame");
     }
     private void OnDarkModeClicked()

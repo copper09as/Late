@@ -1,3 +1,5 @@
+// 文件: JsonTool.cs
+// 说明: 简单的 JSON 序列化/反序列化工具，封装对 `JsonUtility` 和文件读写的调用。
 using UnityEngine;
 
 public static class JsonTool
@@ -27,7 +29,7 @@ public static class JsonTool
 
             string json = System.IO.File.ReadAllText(path);
             T obj = JsonUtility.FromJson<T>(json);
-            Debug.Log($"Loaded JSON from {path}");
+                                       Debug.Log($"Loaded JSON from {path}");
             return obj;
         }
         catch (System.Exception e)
