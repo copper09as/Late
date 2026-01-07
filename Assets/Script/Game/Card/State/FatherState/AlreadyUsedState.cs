@@ -24,9 +24,24 @@ public class AlreadyUsedState : CardState
     }
     protected virtual void ChangeNormalState(Game.Event.TurnOver _)
     {
-        if (count++ ==  0) return;
+        Debug.Log(count);
+        if (count <=  0) 
+        {
+            count++;
+            return;
+        }
         var newState = new NormalState();
-        newState.Init(cardStateMachine, cardPresentation, new ChildNormalState());
+        Debug.Log("Change to Normal State from AlreadyUsedState");
+        newState.Init(cardStateMachine, cardPresentation,childState);
         cardStateMachine.ChangeState(cardPresentation,newState);
+    }
+    public override void Reset()
+    {       
+
+    }
+    public override void Release()
+    {
+        base.Release();
+        EventBus.Unregister<Game.Event.TurnOver>(ChangeNormalState);
     }
 }

@@ -34,6 +34,9 @@ namespace Game.Event
     {
         
     }
+    public struct TurnAlreadyOver
+    {
+    }
 
     /*
     public struct ReturnNormalState

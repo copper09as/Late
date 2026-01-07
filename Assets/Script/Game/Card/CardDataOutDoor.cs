@@ -18,7 +18,7 @@ class CardDataOutDoor : CardData
             runtimeGameData.left++;
             foreach (var card in runtimeGameData.cards)
             {
-                if (card.StateType != CardStates.AlreadyUsed)
+                if (card.StateType == CardStates.flipped)
                 {
                     card.Flip();
                 }

@@ -112,18 +112,21 @@ public class CardMode : ScriptableObject
     }
     protected virtual void UseAdjCardCallback(RuntimeGameData runtimeGameData)
     {
+        //EventBus.Publish(new Game.Event.TurnAlreadyOver { });
         SwapCard(runtimeGameData.currentChoseCard, runtimeGameData.cardBeClicked);
         if(runtimeGameData.currentChoseCard.StateType!=CardStates.flipped)
         {
             runtimeGameData.currentChoseCard.EnterState(new AlreadyUsedState());
         }
+       
         FlipCards(runtimeGameData);
         //runtimeGameData.currentChoseCard.CancelSelected();
-
         //runtimeGameData.currentChoseCard = null;
         runtimeGameData.Time++;
-        EventBus.Publish(new Game.Event.CheckWin { });
+        runtimeGameData.currentChoseCard.Use(runtimeGameData);
         EventBus.Publish(new Game.Event.TurnOver { });
+        EventBus.Publish(new Game.Event.CheckWin { });
+        
     }
 
     public virtual void ShuffleCards(RuntimeGameData runtimeGameData)
@@ -163,12 +166,18 @@ public class CardMode : ScriptableObject
         var cardList = runtimeGameData.currentChoseCard.GetFunctionArea(runtimeGameData);
         foreach (var card in cardList)
         {
-            if (card.StateType!= CardStates.AlreadyUsed || card.index!=card.CardId)
+            //在正确位置并已经被使用的牌不翻转
+            
+            if (card == runtimeGameData.currentChoseCard && card.index==card.CardId)
+            {
+                continue;
+            }
+            else
             {
                 card.Flip();
             }
         }
-        runtimeGameData.currentChoseCard.Use(runtimeGameData);
+       
     }
 
 }

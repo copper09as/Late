@@ -79,7 +79,7 @@ class GameManager : MonoBehaviour
             Application.Quit();
         });
         winDic.Add("Cancel", null);
-        MessageBox.Instance.ShowMessage(winDic, "You Win!Spend{0}times: " + runtimeGameData.Time);
+        MessageBox.Instance.ShowMessage(winDic, "You Win!Spend times: " + runtimeGameData.Time);
     }
     private void GameLose()
     {

@@ -11,6 +11,10 @@ public abstract class CardState
         this.cardPresentation = cardPresentation;
         this.childState = childState;
     }
+    public virtual void Reset()
+    {
+        
+    }
     public virtual void Enter()
     {
         //EventBus.Register<Game.Event.ReturnNormalState>(ChangeNormalState);
@@ -30,6 +34,10 @@ public abstract class CardState
     
     }
     */
+    public virtual void Release()
+    {
+        childState?.Release();
+    }
 }
 
 

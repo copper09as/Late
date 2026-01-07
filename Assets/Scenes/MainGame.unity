@@ -269,7 +269,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 161907173}
-  sr: {fileID: 7630196}
 --- !u!1 &161907171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1317,7 +1316,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 471333795}
-  sr: {fileID: 549112662}
 --- !u!61 &549112664
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1662,7 +1660,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 282218977}
-  sr: {fileID: 762968371}
 --- !u!1 &823117664
 GameObject:
   m_ObjectHideFlags: 0
@@ -1764,7 +1761,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &833736100
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2028,7 +2025,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 1318193289}
-  sr: {fileID: 851465334}
 --- !u!1 &869348460
 GameObject:
   m_ObjectHideFlags: 0
@@ -2176,7 +2172,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 284019943}
-  sr: {fileID: 869348463}
 --- !u!1 &922635620
 GameObject:
   m_ObjectHideFlags: 0
@@ -2445,7 +2440,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 241420988}
-  sr: {fileID: 1043363020}
 --- !u!1 &1067688530
 GameObject:
   m_ObjectHideFlags: 0
@@ -2593,7 +2587,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 1639201175}
-  sr: {fileID: 1067688533}
 --- !u!1 &1318193287
 GameObject:
   m_ObjectHideFlags: 0
@@ -2712,7 +2705,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 819, y: -345.99274}
+  m_AnchoredPosition: {x: 819, y: -430}
   m_SizeDelta: {x: 376.523, y: 77.392}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1354249976
@@ -2959,7 +2952,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 1928903473}
-  sr: {fileID: 1357592083}
 --- !u!1 &1398609928
 GameObject:
   m_ObjectHideFlags: 0
@@ -3107,7 +3099,6 @@ MonoBehaviour:
   cardData: {fileID: 0}
   index: 0
   frame: {fileID: 823117666}
-  sr: {fileID: 1398609931}
 --- !u!1 &1455282478
 GameObject:
   m_ObjectHideFlags: 0
@@ -3374,7 +3365,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1724956906
 RectTransform:
   m_ObjectHideFlags: 0

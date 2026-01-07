@@ -16,10 +16,8 @@ public class CardStateMachine
     }
     public void ChangeChildState(ChildCardState newState)
     {
-        UnityEngine.Debug.Log("Change Child State to " + newState.StateType);
         if (currentState != null && currentState.childState != null)
         {
-            UnityEngine.Debug.Log("Exit Child State " + currentState.childState.StateType);
             currentState.childState.Exit();
         }
         currentState.childState = newState;
@@ -40,5 +38,13 @@ public class CardStateMachine
             return currentState.childState.StateType;
         }
         return default;
+    }
+    public void ResetCurrentState()
+    {
+        currentState?.Reset();
+    }
+    public void Release()
+    {
+        currentState.Release();
     }
 }

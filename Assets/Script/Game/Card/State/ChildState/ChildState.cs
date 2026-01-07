@@ -18,10 +18,15 @@ public abstract class ChildCardState
     {
         
     }
+    public virtual void Release()
+    {
+        
+    }
 }
 public enum ChildCardStates
 {
     Normal,
     BeSelect,
-    Helight
+    Helight,
+    CantBeFlip
 }

@@ -25,5 +25,10 @@ class BeSelectState : ChildCardState
         newState.Init(cardStateMachine, cardPresentation);
         cardStateMachine.ChangeChildState(newState);
     }
+    public override void Release()
+    {
+        base.Release();
+        EventBus.Unregister<Game.Event.TurnOver>(ChangeNormalState);
+    }
 
 }

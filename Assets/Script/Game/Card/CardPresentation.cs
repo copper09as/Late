@@ -8,7 +8,11 @@ public class CardPresentation : MonoBehaviour
     [SerializeField] private CardData cardData;
     public int index;
     public SpriteRenderer frame;
-    [SerializeField]private SpriteRenderer sr;
+    private SpriteRenderer _sr;
+    [SerializeField]private SpriteRenderer sr
+    {
+        get {if(_sr == null) _sr = GetComponent<SpriteRenderer>(); return _sr; }
+    }
     private CardStateMachine cardStateMachine = new();
     private Color frameOriginalColor;
 
@@ -21,6 +25,7 @@ public class CardPresentation : MonoBehaviour
     {
         StopAllCoroutines();
         bool isFlip = StateType == CardStates.flipped;
+        cardStateMachine.ResetCurrentState();
         if (isFlip)
         {
             var normalState = new NormalState();
@@ -35,6 +40,10 @@ public class CardPresentation : MonoBehaviour
         }
         SetImage(!isFlip);
         StartCoroutine(FlipCoroutine());
+    }
+    void OnDestroy()
+    {
+        cardStateMachine.Release();
     }
     public void Init(int index, CardData cardData)
     {

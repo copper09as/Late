@@ -16,7 +16,6 @@ class HelightState : ChildCardState
 
     public override void Exit()
     {
-        UnityEngine.Debug.Log("Exit Helight State");
         cardPresentation.CancelFrameHighlight();
         EventBus.Unregister<Game.Event.TurnOver>(ChangeNormalState);
     }
@@ -25,5 +24,10 @@ class HelightState : ChildCardState
         var newState = new ChildNormalState();
         newState.Init(cardStateMachine, cardPresentation);
         cardStateMachine.ChangeChildState(newState);
+    }
+    public override void Release()
+    {
+        base.Release();
+        EventBus.Unregister<Game.Event.TurnOver>(ChangeNormalState);
     }
 }   
