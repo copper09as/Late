@@ -8,7 +8,7 @@ public class CardPresentation : MonoBehaviour
     [SerializeField] private CardData cardData;
     public int index;
     public SpriteRenderer frame;
-    private SpriteRenderer sr;
+    [SerializeField]private SpriteRenderer sr;
     private CardStateMachine cardStateMachine = new();
     private Color frameOriginalColor;
 
@@ -38,8 +38,6 @@ public class CardPresentation : MonoBehaviour
     }
     public void Init(int index, CardData cardData)
     {
-        sr = GetComponent<SpriteRenderer>();
-        frame = transform.Find("Frame")?.GetComponent<SpriteRenderer>() ?? sr;
         if (frame != null)
         {
             frame.gameObject.SetActive(false);
