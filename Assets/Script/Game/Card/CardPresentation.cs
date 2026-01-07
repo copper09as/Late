@@ -79,6 +79,11 @@ public class CardPresentation : MonoBehaviour
     private void OnMouseDown()
     {
         EventBus.Publish(new Game.Event.UseCard { cardID = this.CardId });
+        EventBus.Publish(new Game.Event.ShowState
+        {
+            fatherState = this.StateType.ToString(),
+            childState = this.cardStateMachine.GetChildStateType().ToString()
+        });
     }
     //public CardStates StateType => cardStateMachine.GetStateType();
     public void BeSelectedStart()

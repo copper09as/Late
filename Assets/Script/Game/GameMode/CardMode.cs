@@ -113,12 +113,13 @@ public class CardMode : ScriptableObject
     protected virtual void UseAdjCardCallback(RuntimeGameData runtimeGameData)
     {
         SwapCard(runtimeGameData.currentChoseCard, runtimeGameData.cardBeClicked);
-        FlipCards(runtimeGameData);
-        //runtimeGameData.currentChoseCard.CancelSelected();
         if(runtimeGameData.currentChoseCard.StateType!=CardStates.flipped)
         {
             runtimeGameData.currentChoseCard.EnterState(new AlreadyUsedState());
         }
+        FlipCards(runtimeGameData);
+        //runtimeGameData.currentChoseCard.CancelSelected();
+
         //runtimeGameData.currentChoseCard = null;
         runtimeGameData.Time++;
         EventBus.Publish(new Game.Event.CheckWin { });
