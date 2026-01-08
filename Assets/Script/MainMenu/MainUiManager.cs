@@ -14,7 +14,7 @@ public class MainUiManager : MonoBehaviour
     [SerializeField]private Button DarkModeBtn;
     [SerializeField]private Button BiliLinkBtn;
     [SerializeField]private Button ContinueModeBtn;
-    [SerializeField]private TMP_InputField seedInput;
+    [SerializeField]private InputFieldMain inputFieldMain;
     private string biliLink = "https://www.bilibili.com/video/BV1xNqrBDE4Y/?spm_id_from=333.1391.0.0&vd_source=45bde1244c0f43e2f9d9e5830f6c0518";
     // Start is called before the first frame update
     void Start()
@@ -26,16 +26,10 @@ public class MainUiManager : MonoBehaviour
     }
     private void OnClassicModeClicked()
     {
-        if (string.IsNullOrEmpty(seedInput.text))
-            GameConfig.Instance.seed = DateTime.Now.Millisecond;
-        else if(int.TryParse(seedInput.text,out int seed) && seed != 0)
-        {
-            GameConfig.Instance.seed = seed;
-        }
-        else
-            GameConfig.Instance.seed = seedInput.text.GetHashCode();
+        
         GameConfig.Instance.modePath = "Data/GameMode/CardMode";
-        SceneManager.LoadScene("MainGame");
+        inputFieldMain.GameStart();
+       
         
     }
     private void OnContinueModeClicked()
@@ -46,15 +40,7 @@ public class MainUiManager : MonoBehaviour
     }
     private void OnDarkModeClicked()
     {
-        if (string.IsNullOrEmpty(seedInput.text))
-            GameConfig.Instance.seed = DateTime.Now.Millisecond;
-        else if(int.TryParse(seedInput.text,out int seed) && seed != 0)
-        {
-            GameConfig.Instance.seed = seed;
-        }
-        else
-            GameConfig.Instance.seed = seedInput.text.GetHashCode();
         GameConfig.Instance.modePath = "Data/GameMode/DarkMode";
-        SceneManager.LoadScene("MainGame");
+        inputFieldMain.GameStart();
     }
 }

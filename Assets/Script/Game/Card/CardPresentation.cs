@@ -60,6 +60,8 @@ public class CardPresentation : MonoBehaviour
         SetImage(false);
         var normalState = new NormalState();
         EnterState(normalState);
+        var childNormalState = new ChildNormalState();
+        EnterChildState(childNormalState);
     }
     public void EnterState(CardState state)
     {

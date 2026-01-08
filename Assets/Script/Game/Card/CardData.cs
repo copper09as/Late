@@ -26,6 +26,8 @@ public class CardData : ScriptableObject
     public IReadOnlyList<int> FunctionArea => functionArea;
     public virtual void UseCard(RuntimeGameData runtimeGameData)
     {
+        EventBus.Publish(new Game.Event.TurnOver { });
+        runtimeGameData.SaveCurrentGameData();
+        EventBus.Publish(new Game.Event.CheckWin { });
     }
-    
 }

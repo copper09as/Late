@@ -26,6 +26,24 @@ public class RuntimeGameData
         cardBeClicked = null;
         gameState = GameState.Playing;
         left = 0;
+        saveDataCollection = new SaveDataCollection();
+    }
+    public void SaveCurrentGameData()
+    {
+        var saveData = GetCardData();
+        saveDataCollection.AddHistoryData(saveData);
+        //JsonTool.SaveToJson(saveDataCollection, Application.persistentDataPath + "/saveData.json");
+    }
+    public SaveData GetHistoryData()
+    {
+        var data = saveDataCollection.Undo();
+        if (data == null)
+            return null;
+        Time = data.time;
+        gameState = data.gameState;
+        left = data.left;
+        GameConfig.Instance.seed = data.seed;
+        return data;
     }
     /*
     public SaveData LoadCardData()
@@ -71,7 +89,7 @@ public class RuntimeGameData
 
         return saveData;
     }
-
+    public CardPresentation alreadyCard => cards.Find(card => card.StateType == CardStates.AlreadyUsedT);
     public CardPresentation currentChoseCard => cards.Find(card => card.ChildStateType == ChildCardStates.BeSelect);
 }
 public enum GameState

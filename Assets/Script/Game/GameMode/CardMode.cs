@@ -32,8 +32,6 @@ public class CardMode : ScriptableObject
             for (int i = 0; i < 3; i++)
             {
                 Vector2 position = new Vector2(startX + j * offsetX, startY + i * offsetY);
-
-                // id: 从上往下（同一列 top->bottom），再到下一列；3x3 => 0..8
                 int id = i * 3 + j;
                 slots.Add(new GridSlot(id, position));
             }
@@ -83,7 +81,7 @@ public class CardMode : ScriptableObject
             useCardCondition, 
             useAdjCardCondition
         };
-        runtimeGameData.Reset();
+
         
     }
 
@@ -121,16 +119,13 @@ public class CardMode : ScriptableObject
        
         FlipCards(runtimeGameData);
         runtimeGameData.Time++;
-        runtimeGameData.currentChoseCard.Use(runtimeGameData);
-        EventBus.Publish(new Game.Event.TurnOver { });
-        EventBus.Publish(new Game.Event.CheckWin { });
-        
+        runtimeGameData.currentChoseCard.Use(runtimeGameData);   
     }
-
     public virtual void ShuffleCards(RuntimeGameData runtimeGameData)
     {
         int seed = GameConfig.Instance.seed;
         var cards = runtimeGameData.cards;
+        var slots = new List<GridSlot>(this.slots);
         Debug.Log("Shuffle with seed: " + seed);
         for (int i = 0; i < cards.Count; i++)
         {
@@ -143,18 +138,56 @@ public class CardMode : ScriptableObject
             slots.RemoveAt(randomIndex);
         }
     }
-    /*
-    public virtual void ShuffleCardsContinue(RuntimeGameData runtimeGameData)
+public virtual void ShuffleCards(List<int> preCardIdList, RuntimeGameData runtimeGameData)
+{
+    if (preCardIdList == null || runtimeGameData == null)
+        return;
+    
+    var cards = runtimeGameData.cards;
+    var cardDataList = cardRepository.allCards;
+    
+    // 验证长度
+    if (preCardIdList.Count != cards.Count || preCardIdList.Count != slots.Count)
     {
-        var cards = runtimeGameData.cards;
-        var gameData = runtimeGameData.LoadCardData();
-        ShuffleCardsContinue(cards, gameData);
+        Debug.LogError($"长度不匹配: preCardIdList({preCardIdList.Count}), cards({cards.Count}), slots({slots.Count})");
+        return;
     }
+    
+    // 创建卡牌到位置和数据的直接映射
+    for (int i = 0; i < cards.Count; i++)
+    {
+        // preCardIdList[i] 应该是目标卡牌的ID，而不是索引
+        int targetCardId = preCardIdList[i];
+        
+        // 找到对应的slot（根据当前索引i，而不是targetCardId）
+        GridSlot slot = slots[i];  // 关键修改：使用i而不是targetCardId
+        
+        // 找到对应的卡片数据
+        CardData cardData = null;
+        for (int j = 0; j < cardDataList.Count; j++)
+        {
+            if (cardDataList[j].cardId == targetCardId)  // 根据ID查找
+            {
+                cardData = cardDataList[j];
+                break;
+            }
+        }
+        
+        if (cardData == null)
+        {
+            Debug.LogError($"找不到ID为{targetCardId}的卡片数据");
+            continue;
+        }
+        
+        // 设置卡片位置和数据
+        cards[i].transform.position = slot.position;
+        cards[i].Init(slot.id, cardData);
+    }
+}
+
     public virtual void ShuffleCardsContinue(List<CardPresentation> cards, SaveData gameData)
     {
         int count = gameData.CardIdList.Count;
-        if (gameData.CardIndexList.Count < count) count = gameData.CardIndexList.Count;
-        if (cards.Count < count) count = cards.Count;
         for (int i = 0; i < count; i++)
         {
             int slotId = gameData.CardIndexList[i];
@@ -168,25 +201,35 @@ public class CardMode : ScriptableObject
             cards[i].EnterState(gameData.cardStates[i]);
             cards[i].EnterChildState(gameData.childCardStates[i]);
         } 
+        Debug.Log("ShuffleCardsContinue completed.");
     }
-    */
+    
     public virtual bool CheckWin(RuntimeGameData runtimeGameData)
     {
         var data = runtimeGameData.GetCardData();
-        
+        bool flag = true;
        //runtimeGameData.SaveCardData(data);
         foreach (var card in runtimeGameData.cards)
         {
             if (card.StateType == CardStates.flipped)
             {
-                return false;
+                flag = false;
+                break;
             }
             if (card.CardId != card.index)
             {
-                return false;
+                flag = false;
+                break;
             }
         }
-        return true;
+        if(!flag)
+        {
+            return false;
+        }
+        else
+        {
+            return true;
+        }
     }    
     private void FlipCards(RuntimeGameData runtimeGameData)
     {

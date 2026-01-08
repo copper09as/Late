@@ -54,4 +54,19 @@ public class DarkMode:CardMode
             card.Flip();
         }
     }
+    public override void ShuffleCardsContinue(List<CardPresentation> cards, SaveData historyData)
+    {
+        base.ShuffleCardsContinue(cards, historyData);
+       int time = historyData.time;
+        firstChoseCard = null;
+    }
+    public override void ShuffleCards(List<int> preCardIdList, RuntimeGameData runtimeGameData)
+    {
+        base.ShuffleCards(preCardIdList, runtimeGameData);
+        var cards = runtimeGameData.cards;
+        foreach (var card in cards)
+        {
+            card.Flip();
+        }
+    }
 }

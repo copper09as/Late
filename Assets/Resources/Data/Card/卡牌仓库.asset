@@ -13,12 +13,12 @@ MonoBehaviour:
   m_Name: "\u5361\u724C\u4ED3\u5E93"
   m_EditorClassIdentifier: 
   allCards:
-  - {fileID: 11400000, guid: e3c90f31efb4b684fb40689223f144ae, type: 2}
-  - {fileID: 11400000, guid: 3f1869cc923a58e4aa1465170342a529, type: 2}
-  - {fileID: 11400000, guid: b37ce818dd7b12043a189d9231a6c192, type: 2}
-  - {fileID: 11400000, guid: a5e83564dabfe0e4fb7897188aad1d90, type: 2}
-  - {fileID: 11400000, guid: 2eddcf260ed1cf04caca9f6d727dc0df, type: 2}
-  - {fileID: 11400000, guid: a10ea9650a1a14d40a9877092d760ad9, type: 2}
-  - {fileID: 11400000, guid: af277e63e76901d4f8d60c7efd025657, type: 2}
   - {fileID: 11400000, guid: 69020592c134646458c7e7af530d7c21, type: 2}
   - {fileID: 11400000, guid: 030cac37954c0f345b5b34fdc2f9d3ec, type: 2}
+  - {fileID: 11400000, guid: b37ce818dd7b12043a189d9231a6c192, type: 2}
+  - {fileID: 11400000, guid: 2eddcf260ed1cf04caca9f6d727dc0df, type: 2}
+  - {fileID: 11400000, guid: e3c90f31efb4b684fb40689223f144ae, type: 2}
+  - {fileID: 11400000, guid: a5e83564dabfe0e4fb7897188aad1d90, type: 2}
+  - {fileID: 11400000, guid: a10ea9650a1a14d40a9877092d760ad9, type: 2}
+  - {fileID: 11400000, guid: af277e63e76901d4f8d60c7efd025657, type: 2}
+  - {fileID: 11400000, guid: 3f1869cc923a58e4aa1465170342a529, type: 2}

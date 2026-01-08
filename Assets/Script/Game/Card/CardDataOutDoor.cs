@@ -8,31 +8,42 @@ class CardDataOutDoor : CardData
 {
     public override void UseCard(RuntimeGameData runtimeGameData)
     {
-        if(runtimeGameData.left>=3)
-        {
-            return;
-        }
+
         var dic = new System.Collections.Generic.Dictionary<string, Action>();
+        int left = runtimeGameData.left;
         runtimeGameData.gameState = GameState.Paused;
-        Action flipAll = () =>
+        if (runtimeGameData.left < 3)
         {
-            runtimeGameData.gameState = GameState.Playing;
-            runtimeGameData.left++;
-            foreach (var card in runtimeGameData.cards)
+            Action flipAll = () =>
             {
-                if (card.StateType == CardStates.flipped)
+
+
+                runtimeGameData.left++;
+                foreach (var card in runtimeGameData.cards)
                 {
-                    card.Flip();
+                    if (card.StateType == CardStates.flipped)
+                    {
+                        card.Flip();
+                    }
                 }
-            }
-            EventBus.Publish(new Game.Event.CheckWin());
-        };
+                runtimeGameData.gameState = GameState.Playing;
+                EventBus.Publish(new Game.Event.TurnOver { });
+                runtimeGameData.SaveCurrentGameData();
+                EventBus.Publish(new Game.Event.CheckWin());
+
+
+            };
+            dic.Add("Flip All Cards Back (" + (3 - left) + " left)", flipAll);
+        }
+
         Action continueAction = () =>
         {
             runtimeGameData.gameState = GameState.Playing;
+            EventBus.Publish(new Game.Event.TurnOver { });
+            runtimeGameData.SaveCurrentGameData();
+            EventBus.Publish(new Game.Event.CheckWin());
         };
-        var left = runtimeGameData.left;
-        dic.Add("Flip All Cards Back (" + (3-left) + " left)", flipAll);
+
         dic.Add("Cancel", continueAction);
         MessageBox.Instance.ShowMessage(dic, "Do you want to flip all cards back?");
 

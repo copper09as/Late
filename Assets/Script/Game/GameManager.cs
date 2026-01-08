@@ -35,11 +35,15 @@ class GameManager : MonoBehaviour
     void Init(Game.Event.Init initEvent)
     {
         Init();
+        
     }
     void LastStep(Game.Event.LastStep lastStepEvent)
     {
-        //runtimeGameData.GetLastSaveData();
-        //cardMode.ShuffleCardsContinue(runtimeGameData.cards, runtimeGameData.GetLastSaveData());
+        var data = runtimeGameData.GetHistoryData();
+        if (data == null)
+            return;
+        Debug.Log(data.ToString());
+        cardMode.ShuffleCardsContinue(runtimeGameData.cards, data);
     }
     void Init()
     {
@@ -57,6 +61,7 @@ class GameManager : MonoBehaviour
         cardMode = GameConfig.Instance.LoadMode();
         cardMode.Init(runtimeGameData);
         ShuffleCards();
+        runtimeGameData.SaveCurrentGameData();
     }
     void Update()
     {
@@ -72,9 +77,10 @@ class GameManager : MonoBehaviour
     }
     private void CheckWin(Game.Event.CheckWin checkWinEvent)
     {
-        if (cardMode.CheckWin(runtimeGameData))
+        if (cardMode.CheckWin(runtimeGameData) && runtimeGameData.gameState!= GameState.Win)
         {
             GameWin();
+            return;
         }
     }
     private void GameWin()
@@ -89,11 +95,8 @@ class GameManager : MonoBehaviour
         {
             UnityEngine.SceneManagement.SceneManager.LoadScene("MainMenu");
         });
-        winDic.Add("Quit", () =>
-        {
-            Application.Quit();
-        });
         winDic.Add("Cancel", null);
+
         MessageBox.Instance.ShowMessage(winDic, "You Win!Spend times: " + runtimeGameData.Time);
     }
     private void GameLose()
@@ -131,7 +134,18 @@ class GameManager : MonoBehaviour
             GameConfig.Instance.continueMode = false;
             return;
         }*/
+        if (GameConfig.Instance.preCardIdList.Count == 9)
+        {
+            cardMode.ShuffleCards(GameConfig.Instance.preCardIdList, runtimeGameData);
+            runtimeGameData.Reset();
+            CheckWin(new Game.Event.CheckWin { });
+            return;
+        }
         cardMode.ShuffleCards(runtimeGameData);
+        runtimeGameData.Reset();
+        CheckWin(new Game.Event.CheckWin { });
+        //cardMode.ShuffleCards(new List<int>{0,1,2,3,4,5,6,7,8}, runtimeGameData);
         //runtimeGameData.SaveCardData(runtimeGameData.GetCardData());
+       
     }
 }
