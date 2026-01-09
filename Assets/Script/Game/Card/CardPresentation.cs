@@ -41,7 +41,7 @@ public class CardPresentation : MonoBehaviour
             EnterState(flippedState);
             UnityEngine.Debug.Log("Flip to Flipped State");
         }
-        StartCoroutine(FlipCoroutine());
+        
     }
     void OnDestroy()
     {
@@ -309,13 +309,6 @@ public class CardPresentation : MonoBehaviour
             frame.color = original;
         }
     }
-
-    /*
-    0 1 2      2%3 == 1 
-    3 4 5
-    6 7 8
-    */
-
     //鼠标进入和退出后产生视觉效果
     void OnMouseEnter()
     {
@@ -335,7 +328,7 @@ public class CardPresentation : MonoBehaviour
             childState = "None"
         });
     }
-   private IEnumerator FlipCoroutine()
+   public IEnumerator FlipCoroutine()
     {
 
         float duration = 0.25f;
@@ -365,6 +358,5 @@ public class CardPresentation : MonoBehaviour
         return cardList;
     }
     public int CardId => cardData.cardId;
-
     public ChildCardStates ChildStateType => cardStateMachine.GetChildStateType();
 }

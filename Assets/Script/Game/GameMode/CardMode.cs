@@ -81,8 +81,6 @@ public class CardMode : ScriptableObject
             useCardCondition, 
             useAdjCardCondition
         };
-
-        
     }
 
     protected virtual void UseCardCallback(RuntimeGameData runtimeGameData)
@@ -99,7 +97,6 @@ public class CardMode : ScriptableObject
         var selectedState = new BeSelectState();
         runtimeGameData.cardBeClicked.EnterChildState(selectedState);
     }
-    
     protected virtual void CancelSelection(RuntimeGameData runtimeGameData)
     {
         runtimeGameData.currentChoseCard.CancelSelected();
@@ -116,7 +113,6 @@ public class CardMode : ScriptableObject
         {
             runtimeGameData.currentChoseCard.EnterState(new AlreadyUsedState());
         }
-       
         FlipCards(runtimeGameData);
         runtimeGameData.Time++;
         runtimeGameData.currentChoseCard.Use(runtimeGameData);   

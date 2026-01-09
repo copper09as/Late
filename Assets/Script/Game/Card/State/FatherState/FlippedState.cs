@@ -7,16 +7,17 @@ class FlippedState : CardState
     public override void Enter()
     {
         cardPresentation.SetImage(true);
+        cardPresentation.StartCoroutine(cardPresentation.FlipCoroutine());
     }
 
     public override void Execute()
     {
-        // 在翻转状态下，等待其他逻辑处理
     }
 
     public override void Exit()
     {
         cardPresentation.SetImage(false);
+        cardPresentation.StartCoroutine(cardPresentation.FlipCoroutine());
     }
 
 }
